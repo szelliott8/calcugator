@@ -39,6 +39,7 @@ function number(e) {
     if (newDisplay){
         currentDisplay = e.target.textContent
         newDisplay = false
+        var2=undefined;
     } 
     else{
         currentDisplay +=e.target.textContent
@@ -53,6 +54,7 @@ function clear() {
     var1 = undefined
     var2 = undefined
     op = undefined
+    newDisplay = true;
     document.querySelector('.display').textContent = currentDisplay
 }
 
@@ -61,13 +63,17 @@ function chooseOperation(e) {
     clearButtons();
     
     e.target.style.backgroundColor = 'blue'
-    if(!var1) {
+    if(e.target.textContent===op) {
+        return
+    }
+    else if(!var1 || newDisplay) {
         console.log(var1)
-        console.log(var2)
+        console.log(newDisplay)
         var1=currentDisplay
         op = e.target.textContent
         }
     else {
+  
         operate();
         op = e.target.textContent
     }
@@ -76,9 +82,10 @@ function chooseOperation(e) {
 
 function operate(){
     console.log(op)
-    if(!var2) {
-        var2=currentDisplay;
-    }
+          if(!var2) {
+            var2=currentDisplay;
+        }
+
     if(op ==="+") {
         result = parseInt(var1)+parseInt(var2)
         console.log(var1)
@@ -91,16 +98,21 @@ function operate(){
         result = parseInt(var1)*parseInt(var2)
     }
     if(op ==="/") {
+        if (var2 ==='0') {
+            alert("Aaarrghh can't do that");
+            clear();
+            return;
+        }
         result = parseInt(var1)/parseInt(var2)
     }
-    
+
     currentDisplay = result;
     var1=result;
-    var2=undefined;
+    // var2=undefined;
     document.querySelector('.display').textContent = currentDisplay;
     console.log(currentDisplay)
     newDisplay=true;
-    op=undefined
+    // op=undefined
 
 }
 
